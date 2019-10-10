@@ -1,24 +1,15 @@
 sudo: required
 services:
   - docker
-dist: trusty
+dist: xenial
 language: go
 go:
-  - 1.11.2
+  - 1.12.5
 before_install:
   - sudo apt-get update -yq
 script:
   - |
-    if [ "${TRAVIS_BRANCH}" == "master" ]; then
-      export DOCKER_HUB_AUTOPILOT_TAG=master
-    else
-      export DOCKER_HUB_AUTOPILOT_TAG=`git rev-parse --short HEAD`
-    fi
-    make && make pretest && make test && make container &&
-    if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
-      docker login -u "${DOCKER_USER}" -p "${DOCKER_PASSWORD}";
-      make deploy
-    fi
+    make && make pretest
 notifications:
   email:
     on_success: always
