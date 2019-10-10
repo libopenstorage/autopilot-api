@@ -1,0 +1,16 @@
+sudo: required
+services:
+  - docker
+dist: xenial
+language: go
+go:
+  - 1.12.5
+before_install:
+  - sudo apt-get update -yq
+script:
+  - |
+    make && make pretest
+notifications:
+  email:
+    on_success: always
+    on_failure: always
