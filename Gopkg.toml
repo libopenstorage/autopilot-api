@@ -33,14 +33,6 @@ required = [
   "k8s.io/code-generator/cmd/deepcopy-gen/args"
 ]
 
-[[constraint]]
-  name = "k8s.io/code-generator"
-  version = "kubernetes-1.11.0"
-
-[[constraint]]
-  name = "github.com/operator-framework/operator-sdk"
-  version = "0.0.7"
-
 [prune]
   go-tests = true
   unused-packages = true
