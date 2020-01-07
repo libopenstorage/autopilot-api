@@ -21,3 +21,7 @@ package v1alpha1
 // AutopilotRuleListerExpansion allows custom methods to be added to
 // AutopilotRuleLister.
 type AutopilotRuleListerExpansion interface{}
+
+// AutopilotRuleObjectListerExpansion allows custom methods to be added to
+// AutopilotRuleObjectLister.
+type AutopilotRuleObjectListerExpansion interface{}

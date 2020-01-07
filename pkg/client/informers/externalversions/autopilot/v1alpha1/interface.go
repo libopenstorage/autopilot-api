@@ -26,6 +26,8 @@ import (
 type Interface interface {
 	// AutopilotRules returns a AutopilotRuleInformer.
 	AutopilotRules() AutopilotRuleInformer
+	// AutopilotRuleObjects returns a AutopilotRuleObjectInformer.
+	AutopilotRuleObjects() AutopilotRuleObjectInformer
 }
 
 type version struct {
@@ -42,4 +44,9 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 // AutopilotRules returns a AutopilotRuleInformer.
 func (v *version) AutopilotRules() AutopilotRuleInformer {
 	return &autopilotRuleInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
+// AutopilotRuleObjects returns a AutopilotRuleObjectInformer.
+func (v *version) AutopilotRuleObjects() AutopilotRuleObjectInformer {
+	return &autopilotRuleObjectInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }
