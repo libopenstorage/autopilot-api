@@ -94,6 +94,17 @@ func (c *FakeAutopilotRules) Update(autopilotRule *v1alpha1.AutopilotRule) (resu
 	return obj.(*v1alpha1.AutopilotRule), err
 }
 
+// UpdateStatus was generated because the type contains a Status member.
+// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
+func (c *FakeAutopilotRules) UpdateStatus(autopilotRule *v1alpha1.AutopilotRule) (*v1alpha1.AutopilotRule, error) {
+	obj, err := c.Fake.
+		Invokes(testing.NewRootUpdateSubresourceAction(autopilotrulesResource, "status", autopilotRule), &v1alpha1.AutopilotRule{})
+	if obj == nil {
+		return nil, err
+	}
+	return obj.(*v1alpha1.AutopilotRule), err
+}
+
 // Delete takes name of the autopilotRule and deletes it. Returns an error if one occurs.
 func (c *FakeAutopilotRules) Delete(name string, options *v1.DeleteOptions) error {
 	_, err := c.Fake.
