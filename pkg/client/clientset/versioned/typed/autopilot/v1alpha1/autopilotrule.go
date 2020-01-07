@@ -37,6 +37,7 @@ type AutopilotRulesGetter interface {
 type AutopilotRuleInterface interface {
 	Create(*v1alpha1.AutopilotRule) (*v1alpha1.AutopilotRule, error)
 	Update(*v1alpha1.AutopilotRule) (*v1alpha1.AutopilotRule, error)
+	UpdateStatus(*v1alpha1.AutopilotRule) (*v1alpha1.AutopilotRule, error)
 	Delete(name string, options *v1.DeleteOptions) error
 	DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error
 	Get(name string, options v1.GetOptions) (*v1alpha1.AutopilotRule, error)
@@ -107,6 +108,21 @@ func (c *autopilotRules) Update(autopilotRule *v1alpha1.AutopilotRule) (result *
 	err = c.client.Put().
 		Resource("autopilotrules").
 		Name(autopilotRule.Name).
+		Body(autopilotRule).
+		Do().
+		Into(result)
+	return
+}
+
+// UpdateStatus was generated because the type contains a Status member.
+// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
+
+func (c *autopilotRules) UpdateStatus(autopilotRule *v1alpha1.AutopilotRule) (result *v1alpha1.AutopilotRule, err error) {
+	result = &v1alpha1.AutopilotRule{}
+	err = c.client.Put().
+		Resource("autopilotrules").
+		Name(autopilotRule.Name).
+		SubResource("status").
 		Body(autopilotRule).
 		Do().
 		Into(result)

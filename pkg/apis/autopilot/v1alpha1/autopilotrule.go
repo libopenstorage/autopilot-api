@@ -60,9 +60,8 @@ type LabelSelectorRequirement struct {
 type AutopilotRule struct {
 	meta.TypeMeta   `json:",inline"`
 	meta.ObjectMeta `json:"metadata,omitempty"`
-	Spec            AutopilotRuleSpec `json:"spec"`
-	// TODO: add status
-	//Status          AutopilotRuleStatus `json:"status,omitempty"`
+	Spec            AutopilotRuleSpec   `json:"spec"`
+	Status          AutopilotRuleStatus `json:"status,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -99,6 +98,48 @@ type AutopilotRuleSpec struct {
 	// re-trigger any actions once they have been executed.
 	ActionsCoolDownPeriod int64 `json:"actionsCoolDownPeriod,omitempty"`
 }
+
+// AutopilotRuleStatus captures the status of various objects that are monitored as part of an autopilot rule
+type AutopilotRuleStatus struct {
+	// Objects is a map of objects that are monitored as part of a autopilot rule and their statuses
+	Objects map[RuleStatusObjectKey][]*AutopilotRuleObjectStatus `json:"objects"`
+}
+
+// AutopilotRuleObjectStatus represents status of a particular object that is being monitored by autopilot
+type AutopilotRuleObjectStatus struct {
+	meta.ObjectMeta
+	// LastProcessTimestamp was the last time the object was processed
+	LastProcessTimestamp meta.Time `json:"lastProcessTimestamp"`
+	// NextProcessTimestamp is the time the object will be processed next time in the event the object had it's action
+	// failed or was in cooldown after an action was already taken.
+	NextProcessTimestamp meta.Time `json:"nextProcessTimestamp"`
+	State                RuleState `json:"state"`
+}
+
+// RuleState is the type for the state of a rule
+type RuleState string
+
+const (
+	// RuleStateInit is the initial state of the rule where monitorign has not yet begin
+	RuleStateInit RuleState = "Initializing"
+	// RuleStateNormal is when the rule is being monitored and is in normal state
+	RuleStateNormal RuleState = "Normal"
+	// RuleStateTriggered is when the rule has it's conditions met
+	RuleStateTriggered RuleState = "Triggered"
+	// RuleStateActivePending is when the rule has it's conditions met but the actions are
+	// not being performed yet.
+	RuleStateActivePending RuleState = "ActivePending"
+	// RuleStateActiveActionTaken is when the rule has it's actions already taken
+	// but still hasn't moved out of active status
+	RuleStateActiveActionTaken RuleState = "ActiveActionsTaken"
+	// RuleStateDeclined is when action was intentionally declined by autopilot
+	RuleStateDeclined RuleState = "Declined"
+	// RuleStateActiveInProgress is when the rule is active and has met its
+	// conditions and there is an on going action on the object.
+	RuleStateActiveInProgress RuleState = "ActiveInProgress"
+)
+
+type RuleStatusObjectKey string
 
 // RuleObjectSelector defines an object for the rule
 type RuleObjectSelector struct {
