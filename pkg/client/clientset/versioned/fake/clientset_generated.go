@@ -75,8 +75,3 @@ var _ clientset.Interface = &Clientset{}
 func (c *Clientset) AutopilotV1alpha1() autopilotv1alpha1.AutopilotV1alpha1Interface {
 	return &fakeautopilotv1alpha1.FakeAutopilotV1alpha1{Fake: &c.Fake}
 }
-
-// Autopilot retrieves the AutopilotV1alpha1Client
-func (c *Clientset) Autopilot() autopilotv1alpha1.AutopilotV1alpha1Interface {
-	return &fakeautopilotv1alpha1.FakeAutopilotV1alpha1{Fake: &c.Fake}
-}

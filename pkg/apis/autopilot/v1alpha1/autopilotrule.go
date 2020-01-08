@@ -149,3 +149,7 @@ const (
 	// RuleConditionMetrics is a monitoring type of condition in a rule
 	RuleConditionMetrics AutopilotRuleConditionType = "monitoring"
 )
+
+func init() {
+	SchemeBuilder.Register(&AutopilotRule{}, &AutopilotRuleList{})
+}
