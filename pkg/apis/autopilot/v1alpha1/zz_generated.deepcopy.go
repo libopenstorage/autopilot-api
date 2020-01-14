@@ -116,9 +116,13 @@ func (in *AutopilotRuleObjectStatus) DeepCopyInto(out *AutopilotRuleObjectStatus
 	*out = *in
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
-		*out = make([]AutopilotRuleObjectStatusItem, len(*in))
+		*out = make([]*AutopilotRuleObjectStatusItem, len(*in))
 		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(AutopilotRuleObjectStatusItem)
+				(*in).DeepCopyInto(*out)
+			}
 		}
 	}
 	return

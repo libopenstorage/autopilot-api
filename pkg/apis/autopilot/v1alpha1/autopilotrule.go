@@ -114,7 +114,7 @@ type AutopilotRuleObject struct {
 // AutopilotRuleObjectStatus represents the status of an autopilot object
 type AutopilotRuleObjectStatus struct {
 	// Items contains list of recent status items for an autopilot object
-	Items []AutopilotRuleObjectStatusItem `json:"items,omitempty"`
+	Items []*AutopilotRuleObjectStatusItem `json:"items,omitempty"`
 }
 
 // AutopilotRuleObjectStatusItem is a single status item of an autopilot object
