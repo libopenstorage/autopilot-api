@@ -102,16 +102,23 @@ type AutopilotRuleSpec struct {
 // +genclient:nonNamespaced
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// AutopilotRuleObject represents a particular object that is being monitored by autopilot. This is primararily used
+// AutopilotRuleObject represents a particular object that is being monitored by autopilot. This is primarily used
 // for status purposes
 type AutopilotRuleObject struct {
 	meta.TypeMeta   `json:",inline"`
 	meta.ObjectMeta `json:"metadata,omitempty"`
-	Status          AutopilotRuleObjectStatus `json:"status,omitempty"`
+	// Status is the status of an object monitored by an autopilot rule
+	Status AutopilotRuleObjectStatus `json:"status,omitempty"`
 }
 
 // AutopilotRuleObjectStatus represents the status of an autopilot object
 type AutopilotRuleObjectStatus struct {
+	// Items contains list of recent status items for an autopilot object
+	Items []AutopilotRuleObjectStatusItem `json:"items,omitempty"`
+}
+
+// AutopilotRuleObjectStatusItem is a single status item of an autopilot object
+type AutopilotRuleObjectStatusItem struct {
 	// LastProcessTimestamp was the last time the object was processed
 	LastProcessTimestamp meta.Time `json:"lastProcessTimestamp"`
 	// State of the object
