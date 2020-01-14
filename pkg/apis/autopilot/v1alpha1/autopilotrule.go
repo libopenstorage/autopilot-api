@@ -141,6 +141,7 @@ const (
 	RuleStateActiveActionsInProgress RuleState = "ActiveActionsInProgress"
 )
 
+// RuleStatusObjectKey is a type to use as key for rule object statuses
 type RuleStatusObjectKey string
 
 // RuleObjectSelector defines an object for the rule
