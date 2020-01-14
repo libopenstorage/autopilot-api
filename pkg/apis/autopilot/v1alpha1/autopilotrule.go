@@ -128,17 +128,17 @@ const (
 	RuleStateNormal RuleState = "Normal"
 	// RuleStateTriggered is when the rule has it's conditions met
 	RuleStateTriggered RuleState = "Triggered"
-	// RuleStateActivePending is when the rule has it's conditions met but the actions are
+	// RuleStateActiveActionsPending is when the rule has it's conditions met but the actions are
 	// not being performed yet.
-	RuleStateActivePending RuleState = "ActivePending"
-	// RuleStateActiveActionTaken is when the rule has it's actions already taken
+	RuleStateActiveActionsPending RuleState = "ActiveActionsPending"
+	// RuleStateActiveActionsTaken is when the rule has it's actions already taken
 	// but still hasn't moved out of active status
-	RuleStateActiveActionTaken RuleState = "ActiveActionsTaken"
-	// RuleStateDeclined is when action was intentionally declined by autopilot
-	RuleStateDeclined RuleState = "Declined"
-	// RuleStateActiveInProgress is when the rule is active and has met its
+	RuleStateActiveActionsTaken RuleState = "ActiveActionsTaken"
+	// RuleStateActionsDeclined is when action was intentionally declined by autopilot
+	RuleStateActionsDeclined RuleState = "ActionsDeclined"
+	// RuleStateActiveActionsInProgress is when the rule is active and has met its
 	// conditions and there is an on going action on the object.
-	RuleStateActiveInProgress RuleState = "ActiveInProgress"
+	RuleStateActiveActionsInProgress RuleState = "ActiveActionsInProgress"
 )
 
 type RuleStatusObjectKey string
