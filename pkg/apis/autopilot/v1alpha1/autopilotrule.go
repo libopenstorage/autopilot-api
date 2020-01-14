@@ -65,7 +65,7 @@ type AutopilotRule struct {
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// AutopilotRuleList is a list of AutopilotRule objects in Kubernetes
+// AutopilotRuleList is a list of AutopilotRules in Kubernetes
 type AutopilotRuleList struct {
 	meta.TypeMeta `json:",inline"`
 	meta.ListMeta `json:"metadata,omitempty"`
@@ -109,6 +109,16 @@ type AutopilotRuleObject struct {
 	meta.ObjectMeta `json:"metadata,omitempty"`
 	// Status is the status of an object monitored by an autopilot rule
 	Status AutopilotRuleObjectStatus `json:"status,omitempty"`
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// AutopilotRuleObjectList is a list of AutopilotRule objects in Kubernetes
+type AutopilotRuleObjectList struct {
+	meta.TypeMeta `json:",inline"`
+	meta.ListMeta `json:"metadata,omitempty"`
+
+	Items []AutopilotRuleObject `json:"items"`
 }
 
 // AutopilotRuleObjectStatus represents the status of an autopilot object
