@@ -60,8 +60,7 @@ type LabelSelectorRequirement struct {
 type AutopilotRule struct {
 	meta.TypeMeta   `json:",inline"`
 	meta.ObjectMeta `json:"metadata,omitempty"`
-	Spec            AutopilotRuleSpec   `json:"spec"`
-	Status          AutopilotRuleStatus `json:"status,omitempty"`
+	Spec            AutopilotRuleSpec `json:"spec"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -99,16 +98,20 @@ type AutopilotRuleSpec struct {
 	ActionsCoolDownPeriod int64 `json:"actionsCoolDownPeriod,omitempty"`
 }
 
-// AutopilotRuleStatus captures the status of various objects that are monitored as part of an autopilot rule
-type AutopilotRuleStatus struct {
-	// Objects is a map of objects that are monitored as part of a autopilot rule and their statuses
-	Objects map[RuleStatusObjectKey][]*AutopilotRuleObjectStatus `json:"objects"`
+// +genclient
+// +genclient:nonNamespaced
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// AutopilotRuleObject represents a particular object that is being monitored by autopilot. This is primararily used
+// for status purposes
+type AutopilotRuleObject struct {
+	meta.TypeMeta   `json:",inline"`
+	meta.ObjectMeta `json:"metadata,omitempty"`
+	Status          AutopilotRuleObjectStatus `json:"status,omitempty"`
 }
 
-// AutopilotRuleObjectStatus represents status of a particular object that is being monitored by autopilot
+// AutopilotRuleObjectStatus represents the status of an autopilot object
 type AutopilotRuleObjectStatus struct {
-	// Name of the object
-	Name string `json:"name"`
 	// LastProcessTimestamp was the last time the object was processed
 	LastProcessTimestamp meta.Time `json:"lastProcessTimestamp"`
 	// State of the object
@@ -195,5 +198,5 @@ const (
 )
 
 func init() {
-	SchemeBuilder.Register(&AutopilotRule{}, &AutopilotRuleList{})
+	SchemeBuilder.Register(&AutopilotRule{}, &AutopilotRuleObject{}, &AutopilotRuleList{})
 }
