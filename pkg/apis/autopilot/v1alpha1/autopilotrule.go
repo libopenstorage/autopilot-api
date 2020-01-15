@@ -10,11 +10,17 @@ type LabelSelectorOperator string
 const (
 	// AutopilotRuleResourceName is the name of the singular AutopilotRule objects
 	AutopilotRuleResourceName = "autopilotrule"
+	// AutopilotObjectResourceName is the name of the singular AutopilotObject objects
+	AutopilotRuleObjectResourceName = "autopilotruleobject"
 	// AutopilotRuleResourceShortName is the short name for AutopilotRule objects
 	AutopilotRuleResourceShortName = "ar"
+	// AutopilotRuleObjectResourceShortName is the short name for AutopilotRuleObject objects
+	AutopilotRuleObjectResourceShortName = "aro"
 
 	// AutopilotRuleResourcePlural is the name of the plural AutopilotRule objects
 	AutopilotRuleResourcePlural = "autopilotrules"
+	// AutopilotRuleObjectResourcePlural is the name of the plural AutopilotRuleObject objects
+	AutopilotRuleObjectResourcePlural = "autopilotruleobjects"
 
 	// LabelSelectorOpIn is operator where the key must have one of the values
 	LabelSelectorOpIn LabelSelectorOperator = "In"
