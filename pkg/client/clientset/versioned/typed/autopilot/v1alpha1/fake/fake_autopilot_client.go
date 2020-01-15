@@ -32,6 +32,10 @@ func (c *FakeAutopilotV1alpha1) AutopilotRules() v1alpha1.AutopilotRuleInterface
 	return &FakeAutopilotRules{c}
 }
 
+func (c *FakeAutopilotV1alpha1) AutopilotRuleObjects() v1alpha1.AutopilotRuleObjectInterface {
+	return &FakeAutopilotRuleObjects{c}
+}
+
 // RESTClient returns a RESTClient that is used to communicate
 // with API server by this client implementation.
 func (c *FakeAutopilotV1alpha1) RESTClient() rest.Interface {

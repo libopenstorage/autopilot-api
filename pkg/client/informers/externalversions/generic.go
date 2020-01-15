@@ -55,6 +55,8 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 	// Group=autopilot.libopenstorage.org, Version=v1alpha1
 	case v1alpha1.SchemeGroupVersion.WithResource("autopilotrules"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Autopilot().V1alpha1().AutopilotRules().Informer()}, nil
+	case v1alpha1.SchemeGroupVersion.WithResource("autopilotruleobjects"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Autopilot().V1alpha1().AutopilotRuleObjects().Informer()}, nil
 
 	}
 
