@@ -45,9 +45,9 @@ const (
 
 	// ApprovalStatePending means the action has not been yet approved
 	ApprovalStatePending ActionApprovalState = "pending"
-	// ApprovalStatePending means the action has been approved
+	// ApprovalStateApproved means the action has been approved
 	ApprovalStateApproved ActionApprovalState = "approved"
-	// ApprovalStatePending means the action has been declined
+	// ApprovalStateDeclined  means the action has been declined
 	ApprovalStateDeclined ActionApprovalState = "declined"
 )
 
