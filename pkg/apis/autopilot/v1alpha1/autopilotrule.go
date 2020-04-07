@@ -257,7 +257,8 @@ const (
 	RuleConditionMetrics AutopilotRuleConditionType = "monitoring"
 )
 
-func (aro *AutopilotRuleObject) IsActionApproved(actionName string) bool {
+// IsActionApproved checks if the action is approved for the given ARO object
+func IsActionApproved(aro *AutopilotRuleObject, actionName string) bool {
 	for _, approval := range aro.Spec.ActionApprovals {
 		if approval.Action.Name == actionName {
 			return approval.State == ApprovalStateApproved
