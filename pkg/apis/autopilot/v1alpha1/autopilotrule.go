@@ -7,7 +7,7 @@ import (
 type (
 	// LabelSelectorOperator is the set of operators that can be used in a selector requirement.
 	LabelSelectorOperator string
-	// ActionApprovalState is the enum for approval states can object can take for it's actions
+	// ActionApprovalState is the enum for approval states that an object can take for it's actions
 	ActionApprovalState string
 )
 

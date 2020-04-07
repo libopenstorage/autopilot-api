@@ -4,6 +4,6 @@ package v1alpha1
 type EnforcementType string
 
 const (
-	//  ApprovalRequired specifies that all actions for the rule will require an approval
+	// ApprovalRequired specifies that all actions for the rule will require an approval
 	ApprovalRequired EnforcementType = "approvalRequired"
 )
