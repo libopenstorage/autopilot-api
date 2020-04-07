@@ -257,6 +257,16 @@ const (
 	RuleConditionMetrics AutopilotRuleConditionType = "monitoring"
 )
 
+func (aro *AutopilotRuleObject) IsActionApproved(actionName string) bool {
+	for _, approval := range aro.Spec.ActionApprovals {
+		if approval.Action.Name == actionName {
+			return approval.State == ApprovalStateApproved
+		}
+	}
+
+	return false
+}
+
 func init() {
 	SchemeBuilder.Register(&AutopilotRule{}, &AutopilotRuleObject{}, &AutopilotRuleList{}, &AutopilotRuleObjectList{})
 }
