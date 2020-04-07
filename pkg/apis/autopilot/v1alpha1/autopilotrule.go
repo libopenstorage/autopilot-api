@@ -4,8 +4,12 @@ import (
 	meta "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// LabelSelectorOperator is the set of operators that can be used in a selector requirement.
-type LabelSelectorOperator string
+type (
+	// LabelSelectorOperator is the set of operators that can be used in a selector requirement.
+	LabelSelectorOperator string
+	// ActionApprovalState is the enum for approval states that an object can take for it's actions
+	ActionApprovalState string
+)
 
 const (
 	// AutopilotRuleResourceName is the name of the singular AutopilotRule objects
@@ -38,6 +42,13 @@ const (
 	LabelSelectorOpLt LabelSelectorOperator = "Lt"
 	// LabelSelectorOpLtEq is operator where the key must be less than or equal to the values
 	LabelSelectorOpLtEq LabelSelectorOperator = "LtEq"
+
+	// ApprovalStatePending means the action has not been yet approved
+	ApprovalStatePending ActionApprovalState = "pending"
+	// ApprovalStateApproved means the action has been approved
+	ApprovalStateApproved ActionApprovalState = "approved"
+	// ApprovalStateDeclined  means the action has been declined
+	ApprovalStateDeclined ActionApprovalState = "declined"
 )
 
 // LabelSelectorRequirement is a selector that contains values, a key, and an operator that
@@ -108,11 +119,12 @@ type AutopilotRuleSpec struct {
 // +genclient:nonNamespaced
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// AutopilotRuleObject represents a particular object that is being monitored by autopilot. This is primarily used
-// for status purposes
+// AutopilotRuleObject represents a particular object that is being monitored by autopilot.
 type AutopilotRuleObject struct {
 	meta.TypeMeta   `json:",inline"`
 	meta.ObjectMeta `json:"metadata,omitempty"`
+	// Spec is the spec of the autopilot rule object
+	Spec AutopilotRuleObjectSpec `json:"spec,omitempty"`
 	// Status is the status of an object monitored by an autopilot rule
 	Status AutopilotRuleObjectStatus `json:"status,omitempty"`
 }
@@ -125,6 +137,29 @@ type AutopilotRuleObjectList struct {
 	meta.ListMeta `json:"metadata,omitempty"`
 
 	Items []AutopilotRuleObject `json:"items"`
+}
+
+// AutopilotRuleObjectSpec represents the spec of the autopilot object
+type AutopilotRuleObjectSpec struct {
+	// ActionApprovals allows users to set the approval states for actions pending for the object
+	ActionApprovals []AutopilotActionApproval `json:"actionApprovals,omitempty"`
+}
+
+// AutopilotActionApproval stores the state related to approval of an action
+type AutopilotActionApproval struct {
+	// State is the current approval state of the action approval
+	State ActionApprovalState `json:"state,omitempty"`
+	// Action is the action that needs/needed approval
+	Action AutopilotActionPreview `json:"action,omitempty"`
+}
+
+// AutopilotActionPreview presents a preview of an action and the expected result of it before it gets executed
+type AutopilotActionPreview struct {
+	// ObjectMetadata is the metadata for the object on which the action will be performed
+	ObjectMetadata meta.ObjectMeta `json:"objectMetadata,omitempty"`
+	RuleAction
+	// ExpectedResult is a user friendly description of the outcome of executing the action
+	ExpectedResult string `json:"expectedResult,omitempty"`
 }
 
 // AutopilotRuleObjectStatus represents the status of an autopilot object
@@ -154,6 +189,8 @@ const (
 	RuleStateNormal RuleState = "Normal"
 	// RuleStateTriggered is when the rule has it's conditions met
 	RuleStateTriggered RuleState = "Triggered"
+	// RuleStateActionAwaitingApproval is when a rule is waiting approval from a user to proceed with it's actions
+	RuleStateActionAwaitingApproval RuleState = "ActionAwaitingApproval"
 	// RuleStateActiveActionsPending is when the rule has it's conditions met but the actions are
 	// not being performed yet.
 	RuleStateActiveActionsPending RuleState = "ActiveActionsPending"
@@ -219,6 +256,17 @@ const (
 	// RuleConditionMetrics is a monitoring type of condition in a rule
 	RuleConditionMetrics AutopilotRuleConditionType = "monitoring"
 )
+
+// IsActionApproved checks if the action is approved for the given ARO object
+func IsActionApproved(aro *AutopilotRuleObject, actionName string) bool {
+	for _, approval := range aro.Spec.ActionApprovals {
+		if approval.Action.Name == actionName {
+			return approval.State == ApprovalStateApproved
+		}
+	}
+
+	return false
+}
 
 func init() {
 	SchemeBuilder.Register(&AutopilotRule{}, &AutopilotRuleObject{}, &AutopilotRuleList{}, &AutopilotRuleObjectList{})
