@@ -42,7 +42,10 @@ const (
 	LabelSelectorOpLt LabelSelectorOperator = "Lt"
 	// LabelSelectorOpLtEq is operator where the key must be less than or equal to the values
 	LabelSelectorOpLtEq LabelSelectorOperator = "LtEq"
-
+	// LabelSelectorOpNotInRange will compare if the value is not in the range given by first 2 values
+	LabelSelectorOpNotInRange LabelSelectorOperator = "NotInRange"
+	// LabelSelectorOpInRange will compare if the value is in the range given by first 2 values
+	LabelSelectorOpInRange LabelSelectorOperator = "InRange"
 	// ApprovalStatePending means the action has not been yet approved
 	ApprovalStatePending ActionApprovalState = "pending"
 	// ApprovalStateApproved means the action has been approved
@@ -57,7 +60,10 @@ type LabelSelectorRequirement struct {
 	// key is the label key that the selector applies to.
 	// +patchMergeKey=key
 	// +patchStrategy=merge
-	Key string `json:"key"`
+	Key string `json:"key,omitempty"`
+	// KeyAlias is an alias known to autopilot that can be used instead of supplying the key
+	// To view supported aliases, refer to documentation at https://docs.portworx.com/portworx-install-with-kubernetes/autopilot/
+	KeyAlias string `json:"keyAlias,omitempty"`
 	// operator represents a key's relationship to a set of values.
 	// Valid operators are In, NotIn, Exists, DoesNotExist, Lt and Gt.
 	Operator LabelSelectorOperator `json:"operator"`
@@ -228,6 +234,9 @@ type RuleConditions struct {
 	Expressions []*LabelSelectorRequirement `json:"expressions,omitempty"`
 	// For is the duration in seconds for which the conditions must hold true
 	For int64 `json:"for,omitempty"`
+	// RequiredMatches is the number of expressions above that should match for the RuleCondition to be considered
+	// as triggered. Default is 0, which means all expressions need to match
+	RequiredMatches uint64 `json:"requiredMatches,omitempty"`
 	// Type is the condition type
 	// If not provided, the controller for the CRD will pick the default type
 	Type AutopilotRuleConditionType `json:"type,omitempty"`
