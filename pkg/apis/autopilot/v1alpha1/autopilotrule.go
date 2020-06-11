@@ -173,7 +173,9 @@ type ActionPreviewObjectMetadata struct {
 
 // AutopilotRuleObjectStatus represents the status of an autopilot object
 type AutopilotRuleObjectStatus struct {
-	// Items contains list of recent status items for an autopilot object
+	// CurrentStatus shows the current/most recent status of the autopilot rule object
+	CurrentStatus AutopilotRuleObjectStatusItem `json:"currentStatus,omitempty"`
+	// Items contains list of recent status items for an autopilot rule object
 	Items []*AutopilotRuleObjectStatusItem `json:"items,omitempty"`
 }
 
