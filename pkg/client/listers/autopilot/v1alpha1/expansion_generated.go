@@ -18,6 +18,14 @@ limitations under the License.
 
 package v1alpha1
 
+// ActionApprovalListerExpansion allows custom methods to be added to
+// ActionApprovalLister.
+type ActionApprovalListerExpansion interface{}
+
+// ActionApprovalNamespaceListerExpansion allows custom methods to be added to
+// ActionApprovalNamespaceLister.
+type ActionApprovalNamespaceListerExpansion interface{}
+
 // AutopilotRuleListerExpansion allows custom methods to be added to
 // AutopilotRuleLister.
 type AutopilotRuleListerExpansion interface{}

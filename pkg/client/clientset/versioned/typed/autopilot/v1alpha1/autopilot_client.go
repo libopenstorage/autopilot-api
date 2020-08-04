@@ -27,6 +27,7 @@ import (
 
 type AutopilotV1alpha1Interface interface {
 	RESTClient() rest.Interface
+	ActionApprovalsGetter
 	AutopilotRulesGetter
 	AutopilotRuleObjectsGetter
 }
@@ -34,6 +35,10 @@ type AutopilotV1alpha1Interface interface {
 // AutopilotV1alpha1Client is used to interact with features provided by the autopilot.libopenstorage.org group.
 type AutopilotV1alpha1Client struct {
 	restClient rest.Interface
+}
+
+func (c *AutopilotV1alpha1Client) ActionApprovals(namespace string) ActionApprovalInterface {
+	return newActionApprovals(c, namespace)
 }
 
 func (c *AutopilotV1alpha1Client) AutopilotRules() AutopilotRuleInterface {

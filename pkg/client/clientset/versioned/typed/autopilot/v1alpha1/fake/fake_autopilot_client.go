@@ -28,6 +28,10 @@ type FakeAutopilotV1alpha1 struct {
 	*testing.Fake
 }
 
+func (c *FakeAutopilotV1alpha1) ActionApprovals(namespace string) v1alpha1.ActionApprovalInterface {
+	return &FakeActionApprovals{c, namespace}
+}
+
 func (c *FakeAutopilotV1alpha1) AutopilotRules() v1alpha1.AutopilotRuleInterface {
 	return &FakeAutopilotRules{c}
 }
