@@ -7,8 +7,6 @@ import (
 type (
 	// LabelSelectorOperator is the set of operators that can be used in a selector requirement.
 	LabelSelectorOperator string
-	// ActionApprovalState is the enum for approval states that an object can take for it's actions
-	ActionApprovalState string
 )
 
 const (
@@ -46,12 +44,6 @@ const (
 	LabelSelectorOpNotInRange LabelSelectorOperator = "NotInRange"
 	// LabelSelectorOpInRange will compare if the value is in the range given by first 2 values
 	LabelSelectorOpInRange LabelSelectorOperator = "InRange"
-	// ApprovalStatePending means the action has not been yet approved
-	ApprovalStatePending ActionApprovalState = "pending"
-	// ApprovalStateApproved means the action has been approved
-	ApprovalStateApproved ActionApprovalState = "approved"
-	// ApprovalStateDeclined  means the action has been declined
-	ApprovalStateDeclined ActionApprovalState = "declined"
 	// RuleNameLabelKey is the key to use in the label for storing the autopilot rule name
 	RuleNameLabelKey = "rule"
 )

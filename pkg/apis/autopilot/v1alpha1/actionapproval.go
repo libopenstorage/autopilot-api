@@ -8,6 +8,17 @@ import (
 const (
 	// ActionApprovalResourcePlural is the name of the plural ActionApproval objects
 	ActionApprovalResourcePlural = "actionapprovals"
+	// ApprovalStatePending means the action has not been yet approved
+	ApprovalStatePending ActionApprovalState = "pending"
+	// ApprovalStateApproved means the action has been approved
+	ApprovalStateApproved ActionApprovalState = "approved"
+	// ApprovalStateDeclined  means the action has been declined
+	ApprovalStateDeclined ActionApprovalState = "declined"
+)
+
+type (
+	// ActionApprovalState is the enum for approval states that an object can take for it's actions
+	ActionApprovalState string
 )
 
 // +genclient
@@ -43,10 +54,20 @@ type ActionApprovalStatus struct {
 type AutopilotActionPreview struct {
 	// Action is the action spec that's going to get executed
 	Action *RuleAction `json:"action,omitempty"`
-	// ExpectedResult is a user friendly description of the outcome of executing the action
-	ExpectedResult string `json:"expectedResult,omitempty"`
+	// ExpectedResult is a preview of the outcome of executing the action
+	ExpectedResult *ActionPreviewExpectedResult `json:"expectedResult,omitempty"`
 	// InvolvedObjects are the objects that are directly relevant to the action
 	InvolvedObjects []*ActionApprovalInvolvedObject `json:"involvedObjects,omitempty"`
+}
+
+// ActionPreviewExpectedResult captures the expected result for an action preview
+type ActionPreviewExpectedResult struct {
+	// Message is a user friendly description of the outcome of executing the action
+	Message string
+}
+
+func (a *ActionPreviewExpectedResult) String() string {
+	return a.Message
 }
 
 // ActionApprovalInvolvedObject represents a particular object that needs an action approval for it's
