@@ -24,6 +24,8 @@ import (
 
 // Interface provides access to all the informers in this group version.
 type Interface interface {
+	// ActionApprovals returns a ActionApprovalInformer.
+	ActionApprovals() ActionApprovalInformer
 	// AutopilotRules returns a AutopilotRuleInformer.
 	AutopilotRules() AutopilotRuleInformer
 	// AutopilotRuleObjects returns a AutopilotRuleObjectInformer.
@@ -39,6 +41,11 @@ type version struct {
 // New returns a new Interface.
 func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakListOptions internalinterfaces.TweakListOptionsFunc) Interface {
 	return &version{factory: f, namespace: namespace, tweakListOptions: tweakListOptions}
+}
+
+// ActionApprovals returns a ActionApprovalInformer.
+func (v *version) ActionApprovals() ActionApprovalInformer {
+	return &actionApprovalInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // AutopilotRules returns a AutopilotRuleInformer.
