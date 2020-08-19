@@ -33,3 +33,7 @@ type AutopilotRuleListerExpansion interface{}
 // AutopilotRuleObjectListerExpansion allows custom methods to be added to
 // AutopilotRuleObjectLister.
 type AutopilotRuleObjectListerExpansion interface{}
+
+// AutopilotRuleObjectNamespaceListerExpansion allows custom methods to be added to
+// AutopilotRuleObjectNamespaceLister.
+type AutopilotRuleObjectNamespaceListerExpansion interface{}

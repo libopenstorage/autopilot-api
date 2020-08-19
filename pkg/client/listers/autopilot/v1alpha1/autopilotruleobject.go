@@ -29,8 +29,8 @@ import (
 type AutopilotRuleObjectLister interface {
 	// List lists all AutopilotRuleObjects in the indexer.
 	List(selector labels.Selector) (ret []*v1alpha1.AutopilotRuleObject, err error)
-	// Get retrieves the AutopilotRuleObject from the index for a given name.
-	Get(name string) (*v1alpha1.AutopilotRuleObject, error)
+	// AutopilotRuleObjects returns an object that can list and get AutopilotRuleObjects.
+	AutopilotRuleObjects(namespace string) AutopilotRuleObjectNamespaceLister
 	AutopilotRuleObjectListerExpansion
 }
 
@@ -52,9 +52,38 @@ func (s *autopilotRuleObjectLister) List(selector labels.Selector) (ret []*v1alp
 	return ret, err
 }
 
-// Get retrieves the AutopilotRuleObject from the index for a given name.
-func (s *autopilotRuleObjectLister) Get(name string) (*v1alpha1.AutopilotRuleObject, error) {
-	obj, exists, err := s.indexer.GetByKey(name)
+// AutopilotRuleObjects returns an object that can list and get AutopilotRuleObjects.
+func (s *autopilotRuleObjectLister) AutopilotRuleObjects(namespace string) AutopilotRuleObjectNamespaceLister {
+	return autopilotRuleObjectNamespaceLister{indexer: s.indexer, namespace: namespace}
+}
+
+// AutopilotRuleObjectNamespaceLister helps list and get AutopilotRuleObjects.
+type AutopilotRuleObjectNamespaceLister interface {
+	// List lists all AutopilotRuleObjects in the indexer for a given namespace.
+	List(selector labels.Selector) (ret []*v1alpha1.AutopilotRuleObject, err error)
+	// Get retrieves the AutopilotRuleObject from the indexer for a given namespace and name.
+	Get(name string) (*v1alpha1.AutopilotRuleObject, error)
+	AutopilotRuleObjectNamespaceListerExpansion
+}
+
+// autopilotRuleObjectNamespaceLister implements the AutopilotRuleObjectNamespaceLister
+// interface.
+type autopilotRuleObjectNamespaceLister struct {
+	indexer   cache.Indexer
+	namespace string
+}
+
+// List lists all AutopilotRuleObjects in the indexer for a given namespace.
+func (s autopilotRuleObjectNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.AutopilotRuleObject, err error) {
+	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
+		ret = append(ret, m.(*v1alpha1.AutopilotRuleObject))
+	})
+	return ret, err
+}
+
+// Get retrieves the AutopilotRuleObject from the indexer for a given namespace and name.
+func (s autopilotRuleObjectNamespaceLister) Get(name string) (*v1alpha1.AutopilotRuleObject, error) {
+	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
 	if err != nil {
 		return nil, err
 	}
