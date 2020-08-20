@@ -55,5 +55,5 @@ func (v *version) AutopilotRules() AutopilotRuleInformer {
 
 // AutopilotRuleObjects returns a AutopilotRuleObjectInformer.
 func (v *version) AutopilotRuleObjects() AutopilotRuleObjectInformer {
-	return &autopilotRuleObjectInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+	return &autopilotRuleObjectInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }

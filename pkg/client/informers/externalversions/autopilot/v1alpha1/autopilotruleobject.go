@@ -41,32 +41,33 @@ type AutopilotRuleObjectInformer interface {
 type autopilotRuleObjectInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
+	namespace        string
 }
 
 // NewAutopilotRuleObjectInformer constructs a new informer for AutopilotRuleObject type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewAutopilotRuleObjectInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredAutopilotRuleObjectInformer(client, resyncPeriod, indexers, nil)
+func NewAutopilotRuleObjectInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredAutopilotRuleObjectInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredAutopilotRuleObjectInformer constructs a new informer for AutopilotRuleObject type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredAutopilotRuleObjectInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredAutopilotRuleObjectInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.AutopilotV1alpha1().AutopilotRuleObjects().List(options)
+				return client.AutopilotV1alpha1().AutopilotRuleObjects(namespace).List(options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.AutopilotV1alpha1().AutopilotRuleObjects().Watch(options)
+				return client.AutopilotV1alpha1().AutopilotRuleObjects(namespace).Watch(options)
 			},
 		},
 		&autopilotv1alpha1.AutopilotRuleObject{},
@@ -76,7 +77,7 @@ func NewFilteredAutopilotRuleObjectInformer(client versioned.Interface, resyncPe
 }
 
 func (f *autopilotRuleObjectInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredAutopilotRuleObjectInformer(client, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+	return NewFilteredAutopilotRuleObjectInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
 func (f *autopilotRuleObjectInformer) Informer() cache.SharedIndexInformer {

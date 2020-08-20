@@ -31,6 +31,7 @@ import (
 // FakeAutopilotRuleObjects implements AutopilotRuleObjectInterface
 type FakeAutopilotRuleObjects struct {
 	Fake *FakeAutopilotV1alpha1
+	ns   string
 }
 
 var autopilotruleobjectsResource = schema.GroupVersionResource{Group: "autopilot.libopenstorage.org", Version: "v1alpha1", Resource: "autopilotruleobjects"}
@@ -40,7 +41,8 @@ var autopilotruleobjectsKind = schema.GroupVersionKind{Group: "autopilot.libopen
 // Get takes name of the autopilotRuleObject, and returns the corresponding autopilotRuleObject object, and an error if there is any.
 func (c *FakeAutopilotRuleObjects) Get(name string, options v1.GetOptions) (result *v1alpha1.AutopilotRuleObject, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootGetAction(autopilotruleobjectsResource, name), &v1alpha1.AutopilotRuleObject{})
+		Invokes(testing.NewGetAction(autopilotruleobjectsResource, c.ns, name), &v1alpha1.AutopilotRuleObject{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -50,7 +52,8 @@ func (c *FakeAutopilotRuleObjects) Get(name string, options v1.GetOptions) (resu
 // List takes label and field selectors, and returns the list of AutopilotRuleObjects that match those selectors.
 func (c *FakeAutopilotRuleObjects) List(opts v1.ListOptions) (result *v1alpha1.AutopilotRuleObjectList, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootListAction(autopilotruleobjectsResource, autopilotruleobjectsKind, opts), &v1alpha1.AutopilotRuleObjectList{})
+		Invokes(testing.NewListAction(autopilotruleobjectsResource, autopilotruleobjectsKind, c.ns, opts), &v1alpha1.AutopilotRuleObjectList{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -71,13 +74,15 @@ func (c *FakeAutopilotRuleObjects) List(opts v1.ListOptions) (result *v1alpha1.A
 // Watch returns a watch.Interface that watches the requested autopilotRuleObjects.
 func (c *FakeAutopilotRuleObjects) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	return c.Fake.
-		InvokesWatch(testing.NewRootWatchAction(autopilotruleobjectsResource, opts))
+		InvokesWatch(testing.NewWatchAction(autopilotruleobjectsResource, c.ns, opts))
+
 }
 
 // Create takes the representation of a autopilotRuleObject and creates it.  Returns the server's representation of the autopilotRuleObject, and an error, if there is any.
 func (c *FakeAutopilotRuleObjects) Create(autopilotRuleObject *v1alpha1.AutopilotRuleObject) (result *v1alpha1.AutopilotRuleObject, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(autopilotruleobjectsResource, autopilotRuleObject), &v1alpha1.AutopilotRuleObject{})
+		Invokes(testing.NewCreateAction(autopilotruleobjectsResource, c.ns, autopilotRuleObject), &v1alpha1.AutopilotRuleObject{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -87,7 +92,8 @@ func (c *FakeAutopilotRuleObjects) Create(autopilotRuleObject *v1alpha1.Autopilo
 // Update takes the representation of a autopilotRuleObject and updates it. Returns the server's representation of the autopilotRuleObject, and an error, if there is any.
 func (c *FakeAutopilotRuleObjects) Update(autopilotRuleObject *v1alpha1.AutopilotRuleObject) (result *v1alpha1.AutopilotRuleObject, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootUpdateAction(autopilotruleobjectsResource, autopilotRuleObject), &v1alpha1.AutopilotRuleObject{})
+		Invokes(testing.NewUpdateAction(autopilotruleobjectsResource, c.ns, autopilotRuleObject), &v1alpha1.AutopilotRuleObject{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -98,7 +104,8 @@ func (c *FakeAutopilotRuleObjects) Update(autopilotRuleObject *v1alpha1.Autopilo
 // Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
 func (c *FakeAutopilotRuleObjects) UpdateStatus(autopilotRuleObject *v1alpha1.AutopilotRuleObject) (*v1alpha1.AutopilotRuleObject, error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootUpdateSubresourceAction(autopilotruleobjectsResource, "status", autopilotRuleObject), &v1alpha1.AutopilotRuleObject{})
+		Invokes(testing.NewUpdateSubresourceAction(autopilotruleobjectsResource, "status", c.ns, autopilotRuleObject), &v1alpha1.AutopilotRuleObject{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -108,13 +115,14 @@ func (c *FakeAutopilotRuleObjects) UpdateStatus(autopilotRuleObject *v1alpha1.Au
 // Delete takes name of the autopilotRuleObject and deletes it. Returns an error if one occurs.
 func (c *FakeAutopilotRuleObjects) Delete(name string, options *v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewRootDeleteAction(autopilotruleobjectsResource, name), &v1alpha1.AutopilotRuleObject{})
+		Invokes(testing.NewDeleteAction(autopilotruleobjectsResource, c.ns, name), &v1alpha1.AutopilotRuleObject{})
+
 	return err
 }
 
 // DeleteCollection deletes a collection of objects.
 func (c *FakeAutopilotRuleObjects) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
-	action := testing.NewRootDeleteCollectionAction(autopilotruleobjectsResource, listOptions)
+	action := testing.NewDeleteCollectionAction(autopilotruleobjectsResource, c.ns, listOptions)
 
 	_, err := c.Fake.Invokes(action, &v1alpha1.AutopilotRuleObjectList{})
 	return err
@@ -123,7 +131,8 @@ func (c *FakeAutopilotRuleObjects) DeleteCollection(options *v1.DeleteOptions, l
 // Patch applies the patch and returns the patched autopilotRuleObject.
 func (c *FakeAutopilotRuleObjects) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *v1alpha1.AutopilotRuleObject, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootPatchSubresourceAction(autopilotruleobjectsResource, name, pt, data, subresources...), &v1alpha1.AutopilotRuleObject{})
+		Invokes(testing.NewPatchSubresourceAction(autopilotruleobjectsResource, c.ns, name, pt, data, subresources...), &v1alpha1.AutopilotRuleObject{})
+
 	if obj == nil {
 		return nil, err
 	}
