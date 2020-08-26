@@ -14,6 +14,8 @@ const (
 	ApprovalStateApproved ActionApprovalState = "approved"
 	// ApprovalStateDeclined  means the action has been declined
 	ApprovalStateDeclined ActionApprovalState = "declined"
+	// ApprovalStateCanceled  means the action approval has been canceled
+	ApprovalStateCanceled ActionApprovalState = "canceled"
 )
 
 type (
