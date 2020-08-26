@@ -46,6 +46,8 @@ const (
 	LabelSelectorOpInRange LabelSelectorOperator = "InRange"
 	// RuleNameLabelKey is the key to use in the label for storing the autopilot rule name
 	RuleNameLabelKey = "rule"
+	// RuleObjectNameLabel is an label key name to use for storing the name of an object affected by a rule
+	RuleObjectNameLabel = "object"
 )
 
 // LabelSelectorRequirement is a selector that contains values, a key, and an operator that
