@@ -42,6 +42,20 @@
   version = "v1.3.2"
 
 [[projects]]
+  digest = "1:400cb6646c388fe84307ab80a55fbec49b48fb2767275543ed17c3b846805e20"
+  name = "github.com/google/go-cmp"
+  packages = [
+    "cmp",
+    "cmp/internal/diff",
+    "cmp/internal/flags",
+    "cmp/internal/function",
+    "cmp/internal/value",
+  ]
+  pruneopts = "NUT"
+  revision = "d2fcc899bdc2d134b7c00e36137260db963e193c"
+  version = "v0.5.2"
+
+[[projects]]
   digest = "1:52c5834e2bebac9030c97cc0798ac11c3aa8a39f098aeb419f142533da6cd3cc"
   name = "github.com/google/gofuzz"
   packages = ["."]
@@ -288,7 +302,7 @@
   version = "kubernetes-1.14.6"
 
 [[projects]]
-  digest = "1:754bc618ffd9db9380bd8b4db61dd88e96fca6b4aaae996ad6d9972674bdf28f"
+  digest = "1:54bb817ec52beb0019f698acd6ccf92a9bc4ec041958a82e4c6f8693c0bb91b3"
   name = "k8s.io/apimachinery"
   packages = [
     "pkg/api/errors",
@@ -335,8 +349,8 @@
     "third_party/forked/golang/reflect",
   ]
   pruneopts = "NUT"
-  revision = "a9f1d8a9c10182d101acf19b5145c3d4e9299adb"
-  version = "kubernetes-1.14.6"
+  revision = "657cd094317c09d73696c12abec7b97f840fa75e"
+  version = "v0.17.13"
 
 [[projects]]
   digest = "1:9179aa89073d8edebb3b0f574fea73eb903435a92720fbd79544014bbda4aa15"
