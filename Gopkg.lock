@@ -42,6 +42,20 @@
   version = "v1.3.2"
 
 [[projects]]
+  digest = "1:85af59d73a44bd58f524cf05dee34a5021afe1fa4a852079b535c38ae2d1a2e8"
+  name = "github.com/google/go-cmp"
+  packages = [
+    "cmp",
+    "cmp/internal/diff",
+    "cmp/internal/flags",
+    "cmp/internal/function",
+    "cmp/internal/value",
+  ]
+  pruneopts = "NUT"
+  revision = "9680bfaf28748393e28e00238d94070fb9972fd8"
+  version = "v0.5.1"
+
+[[projects]]
   digest = "1:52c5834e2bebac9030c97cc0798ac11c3aa8a39f098aeb419f142533da6cd3cc"
   name = "github.com/google/gofuzz"
   packages = ["."]
@@ -243,9 +257,10 @@
   version = "v2.2.4"
 
 [[projects]]
-  digest = "1:f83b66888402b9a9adf7a1154f27e5b8299e67fe1de9d1e2d4ca17562345404a"
+  digest = "1:061024a203efbf02654d4aa55d69cd10d1f8985dada4cbafe5d6ce1b6914d22a"
   name = "k8s.io/api"
   packages = [
+    "admissionregistration/v1",
     "admissionregistration/v1beta1",
     "apps/v1",
     "apps/v1beta1",
@@ -265,6 +280,7 @@
     "coordination/v1",
     "coordination/v1beta1",
     "core/v1",
+    "discovery/v1alpha1",
     "events/v1beta1",
     "extensions/v1beta1",
     "networking/v1",
@@ -284,11 +300,11 @@
     "storage/v1beta1",
   ]
   pruneopts = "NUT"
-  revision = "e3a6b8045b0b303430f6d0c261fd9e35be50800e"
-  version = "kubernetes-1.14.6"
+  revision = "955e84e216900b30afa183d8b097bd5bab3c8498"
+  version = "kubernetes-1.16.6"
 
 [[projects]]
-  digest = "1:754bc618ffd9db9380bd8b4db61dd88e96fca6b4aaae996ad6d9972674bdf28f"
+  digest = "1:e8dd03f45be7c39ba0f0c5da48295956f3b1d73920f21b4d77c257c1e7361390"
   name = "k8s.io/apimachinery"
   packages = [
     "pkg/api/errors",
@@ -335,11 +351,11 @@
     "third_party/forked/golang/reflect",
   ]
   pruneopts = "NUT"
-  revision = "a9f1d8a9c10182d101acf19b5145c3d4e9299adb"
-  version = "kubernetes-1.14.6"
+  revision = "f69eda767ee8601f65e8966e702f25a344dd2698"
+  version = "kubernetes-1.16.6"
 
 [[projects]]
-  digest = "1:9179aa89073d8edebb3b0f574fea73eb903435a92720fbd79544014bbda4aa15"
+  digest = "1:f98287d3c2cd258d8aae6d176cf6fb86758b0aa7c8df996e4edfc43e6ad48b41"
   name = "k8s.io/client-go"
   packages = [
     "discovery",
@@ -365,11 +381,11 @@
     "util/retry",
   ]
   pruneopts = "NUT"
-  revision = "7e43eff7c80aab1d14728f84248931b9db28bdc0"
-  version = "kubernetes-1.14.6"
+  revision = "e77b6202900a02e7f2b60dc323e53198bb631581"
+  version = "kubernetes-1.16.6"
 
 [[projects]]
-  digest = "1:742ce70d2c6de0f02b5331a25d4d549f55de6b214af22044455fd6e6b451cad9"
+  digest = "1:94e198d2d7e7483789dbf28da6063d9c09891553ef983a3bb9c9e48b875c8e3b"
   name = "k8s.io/code-generator"
   packages = [
     "cmd/client-gen",
@@ -386,8 +402,8 @@
     "pkg/util",
   ]
   pruneopts = ""
-  revision = "50b561225d70b3eb79a1faafd3dfe7b1a62cbe73"
-  version = "kubernetes-1.14.6"
+  revision = "f86ae06843c69c152fba512e9c2f547e3b7df88c"
+  version = "kubernetes-1.16.6"
 
 [[projects]]
   branch = "master"
