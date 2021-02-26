@@ -41,17 +41,17 @@ lint:
 	done
 
 vet:
-	go vet $(PKGS)
+	go vet ./...
 
 $(GOPATH)/bin/staticcheck:
 	go get -u honnef.co/go/tools/cmd/staticcheck
 
 staticcheck: $(GOPATH)/bin/staticcheck
-	$(GOPATH)/bin/staticcheck $(PKGS)
+	$(GOPATH)/bin/staticcheck ./...
 
 errcheck:
 	go get -v github.com/kisielk/errcheck
-	errcheck -verbose -blank $(PKGS)
+	errcheck -verbose -blank ./...
 
 pretest: lint vet errcheck staticcheck
 
