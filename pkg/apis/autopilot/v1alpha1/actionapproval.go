@@ -31,7 +31,7 @@ type ActionApproval struct {
 	meta.TypeMeta   `json:",inline"`
 	meta.ObjectMeta `json:"metadata,omitempty"`
 	Spec            ActionApprovalSpec   `json:"spec"`
-	Status          ActionApprovalStatus `json:"status"`
+	Status          ActionApprovalStatus `json:"status,omitempty"`
 }
 
 // ActionApprovalSpec is the spec for an autopilot action approval
@@ -45,7 +45,7 @@ type ActionApprovalSpec struct {
 // ActionApprovalStatus is current status of an autopilot action approval
 type ActionApprovalStatus struct {
 	// Rule is the parent autopilot rule that resulted in this action approval
-	Rule types.NamespacedName
+	Rule types.NamespacedName `json:"rule"`
 	// LastProcessTimestamp was the last time this approval was processed
 	LastProcessTimestamp meta.Time `json:"lastProcessTimestamp"`
 	// ActionPreviews provides a dry-run preview of the side-effects of the actions
