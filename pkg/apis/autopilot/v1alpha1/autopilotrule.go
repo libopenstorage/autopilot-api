@@ -153,6 +153,9 @@ type AutopilotRuleObjectStatusItem struct {
 	// Message is the user friendly status
 	Message string `json:"message"`
 	// TODO add NextProcessTimestamp
+	// ActionApprovalName is a name of the action approval object for this particular aro.
+	// This name is preserved across restarts of autopilot for the AwaitingApproval state and Declided state.
+	ActionApprovalName string `json:"actionApprovalName,omitempty"`
 }
 
 // RuleState is the type for the state of a rule

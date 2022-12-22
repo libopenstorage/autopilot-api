@@ -31,27 +31,31 @@ vendor:
 check-fmt:
 	bash -c "diff -u <(echo -n) <(gofmt -l -d -s -e $(GO_FILES))"
 
-lint:
-	go get -v golang.org/x/lint/golint
-	for file in $(GO_FILES); do \
-		golint $${file}; \
-		if [ -n "$$(golint $${file})" ]; then \
-			exit 1; \
-		fi; \
-	done
+
+lint: $(GOPATH)/bin/golint
+	# golint check ...
+	@for file in $(GO_FILES); do $(GOPATH)/bin/golint -set_exit_status $${file} || exit 1; done
 
 vet:
 	go vet ./...
 
+$(GOPATH)/bin/golint:
+	go install golang.org/x/lint/golint@latest
+
 $(GOPATH)/bin/staticcheck:
-	go get -u honnef.co/go/tools/cmd/staticcheck
+	go install honnef.co/go/tools/cmd/staticcheck@latest
+
+$(GOPATH)/bin/errcheck:
+	go install github.com/kisielk/errcheck@latest
+
 
 staticcheck: $(GOPATH)/bin/staticcheck
 	$(GOPATH)/bin/staticcheck ./...
 
-errcheck:
-	go get -v github.com/kisielk/errcheck
-	errcheck -verbose -blank ./...
+
+errcheck: $(GOPATH)/bin/errcheck
+	# errcheck check ...
+	@$(GOPATH)/bin/errcheck -verbose -blank ./...
 
 pretest: lint vet errcheck staticcheck
 
